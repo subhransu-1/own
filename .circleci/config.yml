@@ -1,13 +1,20 @@
 version: 2.1
 
 orbs:
-  azure-acr: circleci/azure-acr@1.0.0
+  azure-cli: circleci/azure-cli@1.2.2
+
+jobs:
+  example-job:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
+    steps:
+      - azure-cli/login-with-user:
+          azure-password: Iamronaldo@cr7 
+          azure-username: sekhar.parida@thinkartha.com 
 
 workflows:
-  simple_build_and_push:
+  example-workflow:
     jobs:
-      # with default parameter values, the following would be sufficient to build and push an image to ACR
-      - azure-acr/build_and_push_image:
-          registry-name: circleciry
-          login-server-name: circleciry.azurecr.io
-          repo: myRepository
+      - example-job
+
