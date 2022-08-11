@@ -10,8 +10,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - azure-cli/login-with-user:
-          azure-password: Iamronaldo@cr7 
-          azure-username: sekhar.parida@thinkartha.com 
+          azure-password: 
+          azure-username: 
 
 workflows:
   example-workflow:
