@@ -1,20 +1,27 @@
 version: 2.1
 
 orbs:
-  azure-cli: circleci/azure-cli@1.2.2
+    azure-acr: circleci/azure-acr@0.2.1
 
 jobs:
-  example-job:
+   build-and-test:
     docker:
-      # replace with your preferred image
-      - image: cimg/base:stable
+      - image: cimg/openjdk:11.0
     steps:
-      - azure-cli/login-with-user:
-          azure-password: 
-          azure-username: 
+      - checkout
+      - run:
+          name: Build
+          command: mvn -B -DskipTests clean package
+      - run:
+          name: Test
+          command: mvn test
+      - azure-acr/build-and-push-image:
+          dockerfile: Dockerfile
+          login-server-name: circleciry.azurecr.io
+          registry-name: circleciry
+          repo: simple-java-app
 
 workflows:
-  example-workflow:
+  build-deploy-java-app:
     jobs:
-      - example-job
-
+      - build-and-test
